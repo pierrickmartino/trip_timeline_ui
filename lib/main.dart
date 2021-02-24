@@ -60,20 +60,55 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
           child: StreamBuilder<List<Parameter>>(
-        stream: bloc.getCategories,
+        stream: bloc.getParameters,
         builder: (context, snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
             children = <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.65,
-                width: MediaQuery.of(context).size.width * 0.88,
+                height: MediaQuery.of(context).size.height * 0.95,
+                width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView.builder(
                   itemCount: snapshot.data.length,
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(snapshot.data[index].origin.toLowerCase()),
+                      title: Text('Project ${snapshot.data[index].id}'),
+                      subtitle: Wrap(
+                        spacing: 5,
+                        direction: Axis.vertical,
+                        children: [
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text('Origin : ' + snapshot.data[index].origin),
+                          Text('Preferences : '),
+                          Text('Adult : '),
+                          Text('Child : '),
+                          Text('Budget : '),
+                          Text('Begin date : '),
+                          Text('End date : '),
+                          Text('Creation date : ')
+                        ],
+                      ),
+                      trailing: Wrap(
+                        children: [
+                          IconButton(icon: Icon(Icons.edit), onPressed: null),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              bloc.deleteParameter(snapshot.data[index]);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content:
+                                      Text('Parameter successfully deleted'),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

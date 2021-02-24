@@ -59,15 +59,11 @@ class Database extends _$Database {
     await into(parameters).insert(_parameter);
   }
 
-  Future<dynamic> createParameter(ParametersCompanion _parameter) async {
-    final _parameters = await (select(parameters)
-          ..orderBy(
-            [
-              (u) => OrderingTerm(expression: u.id, mode: OrderingMode.desc),
-            ],
-          ))
-        .get();
-    _parameter = _parameter.copyWith(id: Value(_parameters.first.id + 1));
-    return insertRow(cs, parameters, _parameter);
+  Future<dynamic> updateParameter(Parameter _parameter) async {
+    return updateRow(cs, parameters, _parameter);
+  }
+
+  Future<dynamic> deleteParameter(Parameter _parameter) async {
+    await deleteRow(cs, parameters, _parameter);
   }
 }
