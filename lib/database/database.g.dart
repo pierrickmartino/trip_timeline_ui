@@ -9,20 +9,24 @@ part of 'database.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class Parameter extends DataClass implements Insertable<Parameter> {
   final int id;
-  final String origin;
+  final String originCountry;
+  final String originCity;
   final String preference;
   final int adult;
   final int child;
+  final int baby;
   final int budget;
   final DateTime beginDate;
   final DateTime endDate;
   final DateTime creationDate;
   Parameter(
       {@required this.id,
-      this.origin,
+      this.originCountry,
+      this.originCity,
       this.preference,
       this.adult,
       this.child,
+      this.baby,
       this.budget,
       this.beginDate,
       this.endDate,
@@ -35,12 +39,15 @@ class Parameter extends DataClass implements Insertable<Parameter> {
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Parameter(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      origin:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}origin']),
+      originCountry: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}origin_country']),
+      originCity: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}origin_city']),
       preference: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}preference']),
       adult: intType.mapFromDatabaseResponse(data['${effectivePrefix}adult']),
       child: intType.mapFromDatabaseResponse(data['${effectivePrefix}child']),
+      baby: intType.mapFromDatabaseResponse(data['${effectivePrefix}baby']),
       budget: intType.mapFromDatabaseResponse(data['${effectivePrefix}budget']),
       beginDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}begin_date']),
@@ -56,8 +63,11 @@ class Parameter extends DataClass implements Insertable<Parameter> {
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
     }
-    if (!nullToAbsent || origin != null) {
-      map['origin'] = Variable<String>(origin);
+    if (!nullToAbsent || originCountry != null) {
+      map['origin_country'] = Variable<String>(originCountry);
+    }
+    if (!nullToAbsent || originCity != null) {
+      map['origin_city'] = Variable<String>(originCity);
     }
     if (!nullToAbsent || preference != null) {
       map['preference'] = Variable<String>(preference);
@@ -67,6 +77,9 @@ class Parameter extends DataClass implements Insertable<Parameter> {
     }
     if (!nullToAbsent || child != null) {
       map['child'] = Variable<int>(child);
+    }
+    if (!nullToAbsent || baby != null) {
+      map['baby'] = Variable<int>(baby);
     }
     if (!nullToAbsent || budget != null) {
       map['budget'] = Variable<int>(budget);
@@ -86,8 +99,12 @@ class Parameter extends DataClass implements Insertable<Parameter> {
   ParametersCompanion toCompanion(bool nullToAbsent) {
     return ParametersCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      origin:
-          origin == null && nullToAbsent ? const Value.absent() : Value(origin),
+      originCountry: originCountry == null && nullToAbsent
+          ? const Value.absent()
+          : Value(originCountry),
+      originCity: originCity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(originCity),
       preference: preference == null && nullToAbsent
           ? const Value.absent()
           : Value(preference),
@@ -95,6 +112,7 @@ class Parameter extends DataClass implements Insertable<Parameter> {
           adult == null && nullToAbsent ? const Value.absent() : Value(adult),
       child:
           child == null && nullToAbsent ? const Value.absent() : Value(child),
+      baby: baby == null && nullToAbsent ? const Value.absent() : Value(baby),
       budget:
           budget == null && nullToAbsent ? const Value.absent() : Value(budget),
       beginDate: beginDate == null && nullToAbsent
@@ -114,10 +132,12 @@ class Parameter extends DataClass implements Insertable<Parameter> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Parameter(
       id: serializer.fromJson<int>(json['id']),
-      origin: serializer.fromJson<String>(json['origin']),
+      originCountry: serializer.fromJson<String>(json['originCountry']),
+      originCity: serializer.fromJson<String>(json['originCity']),
       preference: serializer.fromJson<String>(json['preference']),
       adult: serializer.fromJson<int>(json['adult']),
       child: serializer.fromJson<int>(json['child']),
+      baby: serializer.fromJson<int>(json['baby']),
       budget: serializer.fromJson<int>(json['budget']),
       beginDate: serializer.fromJson<DateTime>(json['beginDate']),
       endDate: serializer.fromJson<DateTime>(json['endDate']),
@@ -129,10 +149,12 @@ class Parameter extends DataClass implements Insertable<Parameter> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'origin': serializer.toJson<String>(origin),
+      'originCountry': serializer.toJson<String>(originCountry),
+      'originCity': serializer.toJson<String>(originCity),
       'preference': serializer.toJson<String>(preference),
       'adult': serializer.toJson<int>(adult),
       'child': serializer.toJson<int>(child),
+      'baby': serializer.toJson<int>(baby),
       'budget': serializer.toJson<int>(budget),
       'beginDate': serializer.toJson<DateTime>(beginDate),
       'endDate': serializer.toJson<DateTime>(endDate),
@@ -142,20 +164,24 @@ class Parameter extends DataClass implements Insertable<Parameter> {
 
   Parameter copyWith(
           {int id,
-          String origin,
+          String originCountry,
+          String originCity,
           String preference,
           int adult,
           int child,
+          int baby,
           int budget,
           DateTime beginDate,
           DateTime endDate,
           DateTime creationDate}) =>
       Parameter(
         id: id ?? this.id,
-        origin: origin ?? this.origin,
+        originCountry: originCountry ?? this.originCountry,
+        originCity: originCity ?? this.originCity,
         preference: preference ?? this.preference,
         adult: adult ?? this.adult,
         child: child ?? this.child,
+        baby: baby ?? this.baby,
         budget: budget ?? this.budget,
         beginDate: beginDate ?? this.beginDate,
         endDate: endDate ?? this.endDate,
@@ -165,10 +191,12 @@ class Parameter extends DataClass implements Insertable<Parameter> {
   String toString() {
     return (StringBuffer('Parameter(')
           ..write('id: $id, ')
-          ..write('origin: $origin, ')
+          ..write('originCountry: $originCountry, ')
+          ..write('originCity: $originCity, ')
           ..write('preference: $preference, ')
           ..write('adult: $adult, ')
           ..write('child: $child, ')
+          ..write('baby: $baby, ')
           ..write('budget: $budget, ')
           ..write('beginDate: $beginDate, ')
           ..write('endDate: $endDate, ')
@@ -181,28 +209,34 @@ class Parameter extends DataClass implements Insertable<Parameter> {
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
       $mrjc(
-          origin.hashCode,
+          originCountry.hashCode,
           $mrjc(
-              preference.hashCode,
+              originCity.hashCode,
               $mrjc(
-                  adult.hashCode,
+                  preference.hashCode,
                   $mrjc(
-                      child.hashCode,
+                      adult.hashCode,
                       $mrjc(
-                          budget.hashCode,
+                          child.hashCode,
                           $mrjc(
-                              beginDate.hashCode,
-                              $mrjc(endDate.hashCode,
-                                  creationDate.hashCode)))))))));
+                              baby.hashCode,
+                              $mrjc(
+                                  budget.hashCode,
+                                  $mrjc(
+                                      beginDate.hashCode,
+                                      $mrjc(endDate.hashCode,
+                                          creationDate.hashCode)))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Parameter &&
           other.id == this.id &&
-          other.origin == this.origin &&
+          other.originCountry == this.originCountry &&
+          other.originCity == this.originCity &&
           other.preference == this.preference &&
           other.adult == this.adult &&
           other.child == this.child &&
+          other.baby == this.baby &&
           other.budget == this.budget &&
           other.beginDate == this.beginDate &&
           other.endDate == this.endDate &&
@@ -211,20 +245,24 @@ class Parameter extends DataClass implements Insertable<Parameter> {
 
 class ParametersCompanion extends UpdateCompanion<Parameter> {
   final Value<int> id;
-  final Value<String> origin;
+  final Value<String> originCountry;
+  final Value<String> originCity;
   final Value<String> preference;
   final Value<int> adult;
   final Value<int> child;
+  final Value<int> baby;
   final Value<int> budget;
   final Value<DateTime> beginDate;
   final Value<DateTime> endDate;
   final Value<DateTime> creationDate;
   const ParametersCompanion({
     this.id = const Value.absent(),
-    this.origin = const Value.absent(),
+    this.originCountry = const Value.absent(),
+    this.originCity = const Value.absent(),
     this.preference = const Value.absent(),
     this.adult = const Value.absent(),
     this.child = const Value.absent(),
+    this.baby = const Value.absent(),
     this.budget = const Value.absent(),
     this.beginDate = const Value.absent(),
     this.endDate = const Value.absent(),
@@ -232,10 +270,12 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
   });
   ParametersCompanion.insert({
     this.id = const Value.absent(),
-    this.origin = const Value.absent(),
+    this.originCountry = const Value.absent(),
+    this.originCity = const Value.absent(),
     this.preference = const Value.absent(),
     this.adult = const Value.absent(),
     this.child = const Value.absent(),
+    this.baby = const Value.absent(),
     this.budget = const Value.absent(),
     this.beginDate = const Value.absent(),
     this.endDate = const Value.absent(),
@@ -243,10 +283,12 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
   });
   static Insertable<Parameter> custom({
     Expression<int> id,
-    Expression<String> origin,
+    Expression<String> originCountry,
+    Expression<String> originCity,
     Expression<String> preference,
     Expression<int> adult,
     Expression<int> child,
+    Expression<int> baby,
     Expression<int> budget,
     Expression<DateTime> beginDate,
     Expression<DateTime> endDate,
@@ -254,10 +296,12 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (origin != null) 'origin': origin,
+      if (originCountry != null) 'origin_country': originCountry,
+      if (originCity != null) 'origin_city': originCity,
       if (preference != null) 'preference': preference,
       if (adult != null) 'adult': adult,
       if (child != null) 'child': child,
+      if (baby != null) 'baby': baby,
       if (budget != null) 'budget': budget,
       if (beginDate != null) 'begin_date': beginDate,
       if (endDate != null) 'end_date': endDate,
@@ -267,20 +311,24 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
 
   ParametersCompanion copyWith(
       {Value<int> id,
-      Value<String> origin,
+      Value<String> originCountry,
+      Value<String> originCity,
       Value<String> preference,
       Value<int> adult,
       Value<int> child,
+      Value<int> baby,
       Value<int> budget,
       Value<DateTime> beginDate,
       Value<DateTime> endDate,
       Value<DateTime> creationDate}) {
     return ParametersCompanion(
       id: id ?? this.id,
-      origin: origin ?? this.origin,
+      originCountry: originCountry ?? this.originCountry,
+      originCity: originCity ?? this.originCity,
       preference: preference ?? this.preference,
       adult: adult ?? this.adult,
       child: child ?? this.child,
+      baby: baby ?? this.baby,
       budget: budget ?? this.budget,
       beginDate: beginDate ?? this.beginDate,
       endDate: endDate ?? this.endDate,
@@ -294,8 +342,11 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (origin.present) {
-      map['origin'] = Variable<String>(origin.value);
+    if (originCountry.present) {
+      map['origin_country'] = Variable<String>(originCountry.value);
+    }
+    if (originCity.present) {
+      map['origin_city'] = Variable<String>(originCity.value);
     }
     if (preference.present) {
       map['preference'] = Variable<String>(preference.value);
@@ -305,6 +356,9 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
     }
     if (child.present) {
       map['child'] = Variable<int>(child.value);
+    }
+    if (baby.present) {
+      map['baby'] = Variable<int>(baby.value);
     }
     if (budget.present) {
       map['budget'] = Variable<int>(budget.value);
@@ -325,10 +379,12 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
   String toString() {
     return (StringBuffer('ParametersCompanion(')
           ..write('id: $id, ')
-          ..write('origin: $origin, ')
+          ..write('originCountry: $originCountry, ')
+          ..write('originCity: $originCity, ')
           ..write('preference: $preference, ')
           ..write('adult: $adult, ')
           ..write('child: $child, ')
+          ..write('baby: $baby, ')
           ..write('budget: $budget, ')
           ..write('beginDate: $beginDate, ')
           ..write('endDate: $endDate, ')
@@ -352,13 +408,27 @@ class $ParametersTable extends Parameters
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _originMeta = const VerificationMeta('origin');
-  GeneratedTextColumn _origin;
+  final VerificationMeta _originCountryMeta =
+      const VerificationMeta('originCountry');
+  GeneratedTextColumn _originCountry;
   @override
-  GeneratedTextColumn get origin => _origin ??= _constructOrigin();
-  GeneratedTextColumn _constructOrigin() {
+  GeneratedTextColumn get originCountry =>
+      _originCountry ??= _constructOriginCountry();
+  GeneratedTextColumn _constructOriginCountry() {
     return GeneratedTextColumn(
-      'origin',
+      'origin_country',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _originCityMeta = const VerificationMeta('originCity');
+  GeneratedTextColumn _originCity;
+  @override
+  GeneratedTextColumn get originCity => _originCity ??= _constructOriginCity();
+  GeneratedTextColumn _constructOriginCity() {
+    return GeneratedTextColumn(
+      'origin_city',
       $tableName,
       true,
     );
@@ -395,6 +465,18 @@ class $ParametersTable extends Parameters
   GeneratedIntColumn _constructChild() {
     return GeneratedIntColumn(
       'child',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _babyMeta = const VerificationMeta('baby');
+  GeneratedIntColumn _baby;
+  @override
+  GeneratedIntColumn get baby => _baby ??= _constructBaby();
+  GeneratedIntColumn _constructBaby() {
+    return GeneratedIntColumn(
+      'baby',
       $tableName,
       true,
     );
@@ -453,10 +535,12 @@ class $ParametersTable extends Parameters
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        origin,
+        originCountry,
+        originCity,
         preference,
         adult,
         child,
+        baby,
         budget,
         beginDate,
         endDate,
@@ -476,9 +560,17 @@ class $ParametersTable extends Parameters
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (data.containsKey('origin')) {
-      context.handle(_originMeta,
-          origin.isAcceptableOrUnknown(data['origin'], _originMeta));
+    if (data.containsKey('origin_country')) {
+      context.handle(
+          _originCountryMeta,
+          originCountry.isAcceptableOrUnknown(
+              data['origin_country'], _originCountryMeta));
+    }
+    if (data.containsKey('origin_city')) {
+      context.handle(
+          _originCityMeta,
+          originCity.isAcceptableOrUnknown(
+              data['origin_city'], _originCityMeta));
     }
     if (data.containsKey('preference')) {
       context.handle(
@@ -493,6 +585,10 @@ class $ParametersTable extends Parameters
     if (data.containsKey('child')) {
       context.handle(
           _childMeta, child.isAcceptableOrUnknown(data['child'], _childMeta));
+    }
+    if (data.containsKey('baby')) {
+      context.handle(
+          _babyMeta, baby.isAcceptableOrUnknown(data['baby'], _babyMeta));
     }
     if (data.containsKey('budget')) {
       context.handle(_budgetMeta,

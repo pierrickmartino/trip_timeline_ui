@@ -11,10 +11,12 @@ part 'database.g.dart';
 class Parameters extends Table {
   // autoIncrement automatically sets this to be the primary key
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get origin => text().nullable()();
+  TextColumn get originCountry => text().nullable()();
+  TextColumn get originCity => text().nullable()();
   TextColumn get preference => text().nullable()();
   IntColumn get adult => integer().nullable()();
   IntColumn get child => integer().nullable()();
+  IntColumn get baby => integer().nullable()();
   IntColumn get budget => integer().nullable()();
   DateTimeColumn get beginDate => dateTime().nullable()();
   DateTimeColumn get endDate => dateTime().nullable()();
@@ -46,8 +48,9 @@ class Database extends _$Database {
       },
       beforeOpen: (details) async {
         if (details.wasCreated) {
-          await into(parameters)
-              .insert(const ParametersCompanion(origin: Value('INIT')));
+          await into(parameters).insert(ParametersCompanion(
+              originCity: const Value('INIT'),
+              creationDate: Value(DateTime.now())));
         }
       },
     );

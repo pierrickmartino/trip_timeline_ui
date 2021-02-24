@@ -4,8 +4,8 @@ import 'package:undo/undo.dart';
 
 import 'database/database.dart';
 
-class HowMuchAppBloc extends Cubit<ChangeStack> {
-  HowMuchAppBloc(this.db) : super(db.cs) {
+class ApplicationBloc extends Cubit<ChangeStack> {
+  ApplicationBloc(this.db) : super(db.cs) {
     init();
   }
 
@@ -14,10 +14,12 @@ class HowMuchAppBloc extends Cubit<ChangeStack> {
   Stream<List<Parameter>> get getParameters => db.watchAllParameters;
 
   Future<void> insertParameter(
-    String origin,
+    String originCity,
+    String originCountry,
     String preference,
     int adult,
     int child,
+    int baby,
     int budget,
     DateTime beginDate,
     DateTime endDate,
@@ -25,10 +27,12 @@ class HowMuchAppBloc extends Cubit<ChangeStack> {
   ) async {
     await db.insertParameter(
       ParametersCompanion(
-        origin: moor.Value(origin),
+        originCity: moor.Value(originCity),
+        originCountry: moor.Value(originCountry),
         preference: moor.Value(preference),
         adult: moor.Value(adult),
         child: moor.Value(child),
+        baby: moor.Value(baby),
         budget: moor.Value(budget),
         beginDate: moor.Value(beginDate),
         endDate: moor.Value(endDate),

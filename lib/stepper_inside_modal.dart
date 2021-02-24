@@ -1,6 +1,9 @@
 import 'package:cool_stepper/cool_stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc.dart';
 
 class StepperInsideModal extends StatefulWidget {
   const StepperInsideModal({Key key}) : super(key: key);
@@ -12,38 +15,38 @@ class StepperInsideModal extends StatefulWidget {
 class _StepperInsideModalState extends State<StepperInsideModal> {
   final _formKey = GlobalKey<FormState>();
   String selectedRole = 'Writer';
-  final TextEditingController _nameCtrl = TextEditingController();
-  final TextEditingController _emailCtrl = TextEditingController();
+  final TextEditingController _originCityCtrl = TextEditingController();
+  final TextEditingController _originCountryCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext rootContext) {
     final List<CoolStep> steps = [
       CoolStep(
-        title: 'Basic Information',
-        subtitle: 'Please fill some of the basic information to get started',
+        title: 'Point de départ',
+        subtitle: "D'où souhaitez-vous démarrer votre voyage ?",
         content: Form(
           key: _formKey,
           child: Column(
             children: [
               _buildTextField(
-                labelText: 'Name',
+                labelText: 'Country',
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Name is required';
+                    return 'Country is required';
                   }
                   return null;
                 },
-                controller: _nameCtrl,
+                controller: _originCountryCtrl,
               ),
               _buildTextField(
-                labelText: 'Email Address',
+                labelText: 'City',
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Email address is required';
+                    return 'City is required';
                   }
                   return null;
                 },
-                controller: _emailCtrl,
+                controller: _originCityCtrl,
               ),
             ],
           ),
@@ -79,13 +82,25 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
 
     final stepper = CoolStepper(
       onCompleted: () {
-        //print(_nameCtrl.text);
+        //print(_originCityCtrl.text);
 
         /** 
          * Insertion ici des informations validées en base de données  
          * Les informations se trouvent dans les controler et peuvent 
          * être facilement retrouvées
         */
+
+        BlocProvider.of<ApplicationBloc>(context).insertParameter(
+            _originCityCtrl.text,
+            _originCountryCtrl.text,
+            'preference',
+            1,
+            2,
+            3,
+            1500,
+            null,
+            null,
+            DateTime.now());
 
         Navigator.of(rootContext).pop();
       },
