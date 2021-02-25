@@ -2,8 +2,11 @@ import 'package:cool_stepper/cool_stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import 'bloc.dart';
+
+final _dateFormat = DateFormat.yMMMd();
 
 class StepperInsideModal extends StatefulWidget {
   const StepperInsideModal({Key key}) : super(key: key);
@@ -13,10 +16,16 @@ class StepperInsideModal extends StatefulWidget {
 }
 
 class _StepperInsideModalState extends State<StepperInsideModal> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   String selectedRole = 'Writer';
   final TextEditingController _originCityCtrl = TextEditingController();
   final TextEditingController _originCountryCtrl = TextEditingController();
+  final TextEditingController _preferenceCtrl = TextEditingController();
+
+  RangeValues _currentRangeValues = const RangeValues(1000, 2000);
+  DateTime selectedDate = DateTime.now();
+  DateTime selectedDateReturn = DateTime.now();
 
   @override
   Widget build(BuildContext rootContext) {
@@ -25,7 +34,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         title: 'Point de départ',
         subtitle: "D'où souhaitez-vous démarrer votre voyage ?",
         content: Form(
-          key: _formKey,
+          key: _formKey1,
           child: Column(
             children: [
               _buildTextField(
@@ -52,9 +61,104 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
           ),
         ),
         validation: () {
-          if (!_formKey.currentState.validate()) {
+          if (!_formKey1.currentState.validate()) {
             return 'Fill form correctly';
           }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'Préférences',
+        subtitle:
+            "Quels sont vos principaux centre d'intérêts pour ce projet ?",
+        content: Form(
+          key: _formKey2,
+          child: Column(
+            children: [
+              _buildTextField(
+                labelText: 'Preference',
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Preference is required';
+                  }
+                  return null;
+                },
+                controller: _preferenceCtrl,
+              ),
+            ],
+          ),
+        ),
+        validation: () {
+          if (!_formKey2.currentState.validate()) {
+            return 'Fill form correctly';
+          }
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'Budget',
+        subtitle:
+            'Quelle est votre fourchette de budget allouée pour ce projet ?',
+        content: Column(
+          children: [
+            RangeSlider(
+              values: _currentRangeValues,
+              min: 0,
+              max: 10000,
+              divisions: 100,
+              labels: RangeLabels(
+                _currentRangeValues.start.round().toString(),
+                _currentRangeValues.end.round().toString(),
+              ),
+              onChanged: (RangeValues values) {
+                setState(() {
+                  _currentRangeValues = values;
+                });
+              },
+            ),
+          ],
+        ),
+        validation: () {
+          return null;
+        },
+      ),
+      CoolStep(
+        title: 'Date',
+        subtitle: 'A quelles dates souhaitez-vous réaliser ce projet ?',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              children: [
+                Text(
+                  'Départ : ${_dateFormat.format(selectedDateReturn)}',
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () => _selectDateReturn(context), // Refer step 3
+                  child: const Text(
+                    'Select date',
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  'Retour : ${_dateFormat.format(selectedDate)}',
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () => _selectDate(context), // Refer step 3
+                  child: const Text(
+                    'Select date',
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        validation: () {
           return null;
         },
       ),
@@ -93,14 +197,22 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         BlocProvider.of<ApplicationBloc>(context).insertParameter(
             _originCityCtrl.text,
             _originCountryCtrl.text,
-            'preference',
+            _preferenceCtrl.text,
             1,
             2,
             3,
-            1500,
-            null,
-            null,
+            _currentRangeValues.start.round(),
+            _currentRangeValues.end.round(),
+            selectedDate,
+            selectedDateReturn,
             DateTime.now());
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Project successfully created'),
+          ),
+        );
 
         Navigator.of(rootContext).pop();
       },
@@ -114,13 +226,41 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         child: CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: Container(),
-        middle: const Text('Modal Page'),
+        middle: const Text('Project creation'),
       ),
       child: SafeArea(
         bottom: false,
         child: stepper,
       ),
     ));
+  }
+
+  dynamic _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2022),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  dynamic _selectDateReturn(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDateReturn, // Refer step 1
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2022),
+    );
+    if (picked != null && picked != selectedDateReturn) {
+      setState(() {
+        selectedDateReturn = picked;
+      });
+    }
   }
 
   Widget _buildTextField({

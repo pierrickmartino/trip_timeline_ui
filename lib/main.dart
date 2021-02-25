@@ -75,8 +75,41 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: snapshot.data.length,
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     itemBuilder: (context, index) {
+                      String id,
+                          originCity,
+                          originCountry,
+                          preference,
+                          adult,
+                          child,
+                          baby,
+                          budgetMin,
+                          budgetMax,
+                          beginDate,
+                          endDate,
+                          creationDate;
+
+                      id = snapshot.data[index].id.toString();
+                      originCity = snapshot.data[index].originCity;
+                      originCountry = snapshot.data[index].originCountry;
+                      preference = snapshot.data[index].preference;
+                      adult = snapshot.data[index].adult.toString();
+                      child = snapshot.data[index].child.toString();
+                      baby = snapshot.data[index].baby.toString();
+                      budgetMin = snapshot.data[index].budgetMin.toString();
+                      budgetMax = snapshot.data[index].budgetMax.toString();
+                      beginDate = snapshot.data[index].beginDate != null
+                          ? _dateFormat.format(snapshot.data[index].beginDate)
+                          : 'N/A';
+                      endDate = snapshot.data[index].endDate != null
+                          ? _dateFormat.format(snapshot.data[index].endDate)
+                          : 'N/A';
+                      creationDate = snapshot.data[index].creationDate != null
+                          ? _dateFormat
+                              .format(snapshot.data[index].creationDate)
+                          : 'N/A';
+
                       return ListTile(
-                        title: Text('Project ${snapshot.data[index].id}'),
+                        title: Text('Project $id'),
                         subtitle: Wrap(
                           spacing: 5,
                           direction: Axis.vertical,
@@ -84,15 +117,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             const SizedBox(
                               height: 5,
                             ),
+                            Text('Origin : $originCity - $originCountry'),
+                            Text('Preferences : $preference'),
                             Text(
-                                'Origin : ${snapshot.data[index].originCity} - ${snapshot.data[index].originCountry}'),
-                            const Text('Preferences : '),
-                            Text(
-                                'Participant : ${snapshot.data[index].adult.toString()} Adult(s) - ${snapshot.data[index].child.toString()} Child(ren) - ${snapshot.data[index].baby.toString()} Baby(s)'),
-                            const Text('Budget : '),
-                            const Text('Begin date : '),
-                            const Text('End date : '),
-                            Text('Creation date : '),
+                                'Participant : $adult Adult(s) - $child Child(ren) - $baby Baby(s)'),
+                            Text('Budget : between $budgetMin and $budgetMax'),
+                            Text('Period : from $beginDate to $endDate'),
+                            Text('Creation date : $creationDate'),
                             const SizedBox(
                               height: 15,
                             ),
@@ -163,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.transparent,
           builder: (context) => const StepperInsideModal(),
         ),
-        tooltip: 'Open Modal',
+        tooltip: 'New Project',
         child: const Icon(Icons.add),
       ),
     );

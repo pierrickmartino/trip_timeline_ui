@@ -15,7 +15,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
   final int adult;
   final int child;
   final int baby;
-  final int budget;
+  final int budgetMin;
+  final int budgetMax;
   final DateTime beginDate;
   final DateTime endDate;
   final DateTime creationDate;
@@ -27,7 +28,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
       this.adult,
       this.child,
       this.baby,
-      this.budget,
+      this.budgetMin,
+      this.budgetMax,
       this.beginDate,
       this.endDate,
       this.creationDate});
@@ -48,7 +50,10 @@ class Parameter extends DataClass implements Insertable<Parameter> {
       adult: intType.mapFromDatabaseResponse(data['${effectivePrefix}adult']),
       child: intType.mapFromDatabaseResponse(data['${effectivePrefix}child']),
       baby: intType.mapFromDatabaseResponse(data['${effectivePrefix}baby']),
-      budget: intType.mapFromDatabaseResponse(data['${effectivePrefix}budget']),
+      budgetMin:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}budget_min']),
+      budgetMax:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}budget_max']),
       beginDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}begin_date']),
       endDate: dateTimeType
@@ -81,8 +86,11 @@ class Parameter extends DataClass implements Insertable<Parameter> {
     if (!nullToAbsent || baby != null) {
       map['baby'] = Variable<int>(baby);
     }
-    if (!nullToAbsent || budget != null) {
-      map['budget'] = Variable<int>(budget);
+    if (!nullToAbsent || budgetMin != null) {
+      map['budget_min'] = Variable<int>(budgetMin);
+    }
+    if (!nullToAbsent || budgetMax != null) {
+      map['budget_max'] = Variable<int>(budgetMax);
     }
     if (!nullToAbsent || beginDate != null) {
       map['begin_date'] = Variable<DateTime>(beginDate);
@@ -113,8 +121,12 @@ class Parameter extends DataClass implements Insertable<Parameter> {
       child:
           child == null && nullToAbsent ? const Value.absent() : Value(child),
       baby: baby == null && nullToAbsent ? const Value.absent() : Value(baby),
-      budget:
-          budget == null && nullToAbsent ? const Value.absent() : Value(budget),
+      budgetMin: budgetMin == null && nullToAbsent
+          ? const Value.absent()
+          : Value(budgetMin),
+      budgetMax: budgetMax == null && nullToAbsent
+          ? const Value.absent()
+          : Value(budgetMax),
       beginDate: beginDate == null && nullToAbsent
           ? const Value.absent()
           : Value(beginDate),
@@ -138,7 +150,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
       adult: serializer.fromJson<int>(json['adult']),
       child: serializer.fromJson<int>(json['child']),
       baby: serializer.fromJson<int>(json['baby']),
-      budget: serializer.fromJson<int>(json['budget']),
+      budgetMin: serializer.fromJson<int>(json['budgetMin']),
+      budgetMax: serializer.fromJson<int>(json['budgetMax']),
       beginDate: serializer.fromJson<DateTime>(json['beginDate']),
       endDate: serializer.fromJson<DateTime>(json['endDate']),
       creationDate: serializer.fromJson<DateTime>(json['creationDate']),
@@ -155,7 +168,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
       'adult': serializer.toJson<int>(adult),
       'child': serializer.toJson<int>(child),
       'baby': serializer.toJson<int>(baby),
-      'budget': serializer.toJson<int>(budget),
+      'budgetMin': serializer.toJson<int>(budgetMin),
+      'budgetMax': serializer.toJson<int>(budgetMax),
       'beginDate': serializer.toJson<DateTime>(beginDate),
       'endDate': serializer.toJson<DateTime>(endDate),
       'creationDate': serializer.toJson<DateTime>(creationDate),
@@ -170,7 +184,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
           int adult,
           int child,
           int baby,
-          int budget,
+          int budgetMin,
+          int budgetMax,
           DateTime beginDate,
           DateTime endDate,
           DateTime creationDate}) =>
@@ -182,7 +197,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
         adult: adult ?? this.adult,
         child: child ?? this.child,
         baby: baby ?? this.baby,
-        budget: budget ?? this.budget,
+        budgetMin: budgetMin ?? this.budgetMin,
+        budgetMax: budgetMax ?? this.budgetMax,
         beginDate: beginDate ?? this.beginDate,
         endDate: endDate ?? this.endDate,
         creationDate: creationDate ?? this.creationDate,
@@ -197,7 +213,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
           ..write('adult: $adult, ')
           ..write('child: $child, ')
           ..write('baby: $baby, ')
-          ..write('budget: $budget, ')
+          ..write('budgetMin: $budgetMin, ')
+          ..write('budgetMax: $budgetMax, ')
           ..write('beginDate: $beginDate, ')
           ..write('endDate: $endDate, ')
           ..write('creationDate: $creationDate')
@@ -221,11 +238,13 @@ class Parameter extends DataClass implements Insertable<Parameter> {
                           $mrjc(
                               baby.hashCode,
                               $mrjc(
-                                  budget.hashCode,
+                                  budgetMin.hashCode,
                                   $mrjc(
-                                      beginDate.hashCode,
-                                      $mrjc(endDate.hashCode,
-                                          creationDate.hashCode)))))))))));
+                                      budgetMax.hashCode,
+                                      $mrjc(
+                                          beginDate.hashCode,
+                                          $mrjc(endDate.hashCode,
+                                              creationDate.hashCode))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -237,7 +256,8 @@ class Parameter extends DataClass implements Insertable<Parameter> {
           other.adult == this.adult &&
           other.child == this.child &&
           other.baby == this.baby &&
-          other.budget == this.budget &&
+          other.budgetMin == this.budgetMin &&
+          other.budgetMax == this.budgetMax &&
           other.beginDate == this.beginDate &&
           other.endDate == this.endDate &&
           other.creationDate == this.creationDate);
@@ -251,7 +271,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
   final Value<int> adult;
   final Value<int> child;
   final Value<int> baby;
-  final Value<int> budget;
+  final Value<int> budgetMin;
+  final Value<int> budgetMax;
   final Value<DateTime> beginDate;
   final Value<DateTime> endDate;
   final Value<DateTime> creationDate;
@@ -263,7 +284,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
     this.adult = const Value.absent(),
     this.child = const Value.absent(),
     this.baby = const Value.absent(),
-    this.budget = const Value.absent(),
+    this.budgetMin = const Value.absent(),
+    this.budgetMax = const Value.absent(),
     this.beginDate = const Value.absent(),
     this.endDate = const Value.absent(),
     this.creationDate = const Value.absent(),
@@ -276,7 +298,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
     this.adult = const Value.absent(),
     this.child = const Value.absent(),
     this.baby = const Value.absent(),
-    this.budget = const Value.absent(),
+    this.budgetMin = const Value.absent(),
+    this.budgetMax = const Value.absent(),
     this.beginDate = const Value.absent(),
     this.endDate = const Value.absent(),
     this.creationDate = const Value.absent(),
@@ -289,7 +312,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
     Expression<int> adult,
     Expression<int> child,
     Expression<int> baby,
-    Expression<int> budget,
+    Expression<int> budgetMin,
+    Expression<int> budgetMax,
     Expression<DateTime> beginDate,
     Expression<DateTime> endDate,
     Expression<DateTime> creationDate,
@@ -302,7 +326,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
       if (adult != null) 'adult': adult,
       if (child != null) 'child': child,
       if (baby != null) 'baby': baby,
-      if (budget != null) 'budget': budget,
+      if (budgetMin != null) 'budget_min': budgetMin,
+      if (budgetMax != null) 'budget_max': budgetMax,
       if (beginDate != null) 'begin_date': beginDate,
       if (endDate != null) 'end_date': endDate,
       if (creationDate != null) 'creation_date': creationDate,
@@ -317,7 +342,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
       Value<int> adult,
       Value<int> child,
       Value<int> baby,
-      Value<int> budget,
+      Value<int> budgetMin,
+      Value<int> budgetMax,
       Value<DateTime> beginDate,
       Value<DateTime> endDate,
       Value<DateTime> creationDate}) {
@@ -329,7 +355,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
       adult: adult ?? this.adult,
       child: child ?? this.child,
       baby: baby ?? this.baby,
-      budget: budget ?? this.budget,
+      budgetMin: budgetMin ?? this.budgetMin,
+      budgetMax: budgetMax ?? this.budgetMax,
       beginDate: beginDate ?? this.beginDate,
       endDate: endDate ?? this.endDate,
       creationDate: creationDate ?? this.creationDate,
@@ -360,8 +387,11 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
     if (baby.present) {
       map['baby'] = Variable<int>(baby.value);
     }
-    if (budget.present) {
-      map['budget'] = Variable<int>(budget.value);
+    if (budgetMin.present) {
+      map['budget_min'] = Variable<int>(budgetMin.value);
+    }
+    if (budgetMax.present) {
+      map['budget_max'] = Variable<int>(budgetMax.value);
     }
     if (beginDate.present) {
       map['begin_date'] = Variable<DateTime>(beginDate.value);
@@ -385,7 +415,8 @@ class ParametersCompanion extends UpdateCompanion<Parameter> {
           ..write('adult: $adult, ')
           ..write('child: $child, ')
           ..write('baby: $baby, ')
-          ..write('budget: $budget, ')
+          ..write('budgetMin: $budgetMin, ')
+          ..write('budgetMax: $budgetMax, ')
           ..write('beginDate: $beginDate, ')
           ..write('endDate: $endDate, ')
           ..write('creationDate: $creationDate')
@@ -451,11 +482,8 @@ class $ParametersTable extends Parameters
   @override
   GeneratedIntColumn get adult => _adult ??= _constructAdult();
   GeneratedIntColumn _constructAdult() {
-    return GeneratedIntColumn(
-      'adult',
-      $tableName,
-      true,
-    );
+    return GeneratedIntColumn('adult', $tableName, true,
+        defaultValue: const Constant(0));
   }
 
   final VerificationMeta _childMeta = const VerificationMeta('child');
@@ -463,11 +491,8 @@ class $ParametersTable extends Parameters
   @override
   GeneratedIntColumn get child => _child ??= _constructChild();
   GeneratedIntColumn _constructChild() {
-    return GeneratedIntColumn(
-      'child',
-      $tableName,
-      true,
-    );
+    return GeneratedIntColumn('child', $tableName, true,
+        defaultValue: const Constant(0));
   }
 
   final VerificationMeta _babyMeta = const VerificationMeta('baby');
@@ -475,20 +500,29 @@ class $ParametersTable extends Parameters
   @override
   GeneratedIntColumn get baby => _baby ??= _constructBaby();
   GeneratedIntColumn _constructBaby() {
+    return GeneratedIntColumn('baby', $tableName, true,
+        defaultValue: const Constant(0));
+  }
+
+  final VerificationMeta _budgetMinMeta = const VerificationMeta('budgetMin');
+  GeneratedIntColumn _budgetMin;
+  @override
+  GeneratedIntColumn get budgetMin => _budgetMin ??= _constructBudgetMin();
+  GeneratedIntColumn _constructBudgetMin() {
     return GeneratedIntColumn(
-      'baby',
+      'budget_min',
       $tableName,
       true,
     );
   }
 
-  final VerificationMeta _budgetMeta = const VerificationMeta('budget');
-  GeneratedIntColumn _budget;
+  final VerificationMeta _budgetMaxMeta = const VerificationMeta('budgetMax');
+  GeneratedIntColumn _budgetMax;
   @override
-  GeneratedIntColumn get budget => _budget ??= _constructBudget();
-  GeneratedIntColumn _constructBudget() {
+  GeneratedIntColumn get budgetMax => _budgetMax ??= _constructBudgetMax();
+  GeneratedIntColumn _constructBudgetMax() {
     return GeneratedIntColumn(
-      'budget',
+      'budget_max',
       $tableName,
       true,
     );
@@ -541,7 +575,8 @@ class $ParametersTable extends Parameters
         adult,
         child,
         baby,
-        budget,
+        budgetMin,
+        budgetMax,
         beginDate,
         endDate,
         creationDate
@@ -590,9 +625,13 @@ class $ParametersTable extends Parameters
       context.handle(
           _babyMeta, baby.isAcceptableOrUnknown(data['baby'], _babyMeta));
     }
-    if (data.containsKey('budget')) {
-      context.handle(_budgetMeta,
-          budget.isAcceptableOrUnknown(data['budget'], _budgetMeta));
+    if (data.containsKey('budget_min')) {
+      context.handle(_budgetMinMeta,
+          budgetMin.isAcceptableOrUnknown(data['budget_min'], _budgetMinMeta));
+    }
+    if (data.containsKey('budget_max')) {
+      context.handle(_budgetMaxMeta,
+          budgetMax.isAcceptableOrUnknown(data['budget_max'], _budgetMaxMeta));
     }
     if (data.containsKey('begin_date')) {
       context.handle(_beginDateMeta,

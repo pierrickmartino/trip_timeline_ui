@@ -14,10 +14,11 @@ class Parameters extends Table {
   TextColumn get originCountry => text().nullable()();
   TextColumn get originCity => text().nullable()();
   TextColumn get preference => text().nullable()();
-  IntColumn get adult => integer().nullable()();
-  IntColumn get child => integer().nullable()();
-  IntColumn get baby => integer().nullable()();
-  IntColumn get budget => integer().nullable()();
+  IntColumn get adult => integer().nullable().withDefault(const Constant(0))();
+  IntColumn get child => integer().nullable().withDefault(const Constant(0))();
+  IntColumn get baby => integer().nullable().withDefault(const Constant(0))();
+  IntColumn get budgetMin => integer().nullable()();
+  IntColumn get budgetMax => integer().nullable()();
   DateTimeColumn get beginDate => dateTime().nullable()();
   DateTimeColumn get endDate => dateTime().nullable()();
   DateTimeColumn get creationDate => dateTime().nullable()();
