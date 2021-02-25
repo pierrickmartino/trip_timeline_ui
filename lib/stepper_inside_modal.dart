@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import 'bloc.dart';
+import 'const.dart';
 
 final _dateFormat = DateFormat.yMMMd();
 
@@ -26,6 +27,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
   RangeValues _currentRangeValues = const RangeValues(1000, 2000);
   DateTime selectedDate = DateTime.now();
   DateTime selectedDateReturn = DateTime.now();
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext rootContext) {
@@ -75,15 +77,24 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
           key: _formKey2,
           child: Column(
             children: [
-              _buildTextField(
-                labelText: 'Preference',
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Preference is required';
-                  }
-                  return null;
-                },
-                controller: _preferenceCtrl,
+              Wrap(
+                spacing: 4,
+                children:
+
+/** https://karthikponnam.medium.com/flutter-multi-select-choicechip-244ea016b6fa */
+
+                    List<Widget>.generate(preferenceList.length, (int index) {
+                  return ChoiceChip(
+                      label: Text(
+                        preferenceList[index],
+                      ),
+                      selected: isSelected,
+                      onSelected: (selected) {
+                        setState(() {
+                          isSelected = selected;
+                        });
+                      });
+                }).toList(),
               ),
             ],
           ),
@@ -103,9 +114,9 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
           children: [
             RangeSlider(
               values: _currentRangeValues,
-              min: 0,
+              min: 100,
               max: 10000,
-              divisions: 100,
+              divisions: 99900,
               labels: RangeLabels(
                 _currentRangeValues.start.round().toString(),
                 _currentRangeValues.end.round().toString(),
