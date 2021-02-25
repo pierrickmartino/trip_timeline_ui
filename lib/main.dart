@@ -91,7 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       id = snapshot.data[index].id.toString();
                       originCity = snapshot.data[index].originCity;
                       originCountry = snapshot.data[index].originCountry;
-                      preference = snapshot.data[index].preference;
+                      preference = snapshot.data[index].preference
+                          .replaceAll('[', '')
+                          .replaceAll(']', '');
                       adult = snapshot.data[index].adult.toString();
                       child = snapshot.data[index].child.toString();
                       baby = snapshot.data[index].baby.toString();
@@ -121,8 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             Text('Preferences : $preference'),
                             Text(
                                 'Participant : $adult Adult(s) - $child Child(ren) - $baby Baby(s)'),
-                            Text('Budget : between $budgetMin and $budgetMax'),
-                            Text('Period : from $beginDate to $endDate'),
+                            Text('Budget between $budgetMin and $budgetMax'),
+                            Text('Period from $beginDate to $endDate'),
                             Text('Creation date : $creationDate'),
                             const SizedBox(
                               height: 15,

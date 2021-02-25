@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'bloc.dart';
 import 'const.dart';
+import 'multi_select_chip.dart';
 
 final _dateFormat = DateFormat.yMMMd();
 
@@ -28,6 +29,8 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
   DateTime selectedDate = DateTime.now();
   DateTime selectedDateReturn = DateTime.now();
   bool isSelected = false;
+
+  List<String> selectedChoices = [];
 
   @override
   Widget build(BuildContext rootContext) {
@@ -77,25 +80,20 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
           key: _formKey2,
           child: Column(
             children: [
-              Wrap(
-                spacing: 4,
-                children:
+              Wrap(spacing: 4, children: [
+                MultiSelectChip(
+                  reportList: preferenceList,
+                  onSelectionChanged: (selectedList) {
+                    setState(() {
+                      selectedChoices = selectedList;
+                    });
+                  },
+                ),
+              ]
 
 /** https://karthikponnam.medium.com/flutter-multi-select-choicechip-244ea016b6fa */
 
-                    List<Widget>.generate(preferenceList.length, (int index) {
-                  return ChoiceChip(
-                      label: Text(
-                        preferenceList[index],
-                      ),
-                      selected: isSelected,
-                      onSelected: (selected) {
-                        setState(() {
-                          isSelected = selected;
-                        });
-                      });
-                }).toList(),
-              ),
+                  ),
             ],
           ),
         ),
@@ -208,7 +206,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         BlocProvider.of<ApplicationBloc>(context).insertParameter(
             _originCityCtrl.text,
             _originCountryCtrl.text,
-            _preferenceCtrl.text,
+            selectedChoices.toString(),
             1,
             2,
             3,

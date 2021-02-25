@@ -24,27 +24,8 @@ class Parameters extends Table {
   DateTimeColumn get creationDate => dateTime().nullable()();
 }
 
-@DataClassName('Preference')
-class Preferences extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get parameterId =>
-      integer().customConstraint('NULL REFERENCES parameters(id)')();
-  TextColumn get preference => text()();
-  DateTimeColumn get creationDate => dateTime().nullable()();
-}
-
-/**
- * Parameter of the project with selected Preferences
- */
-class ParameterWithPreference {
-  ParameterWithPreference(this.parameter, this.preference);
-
-  final Parameter parameter;
-  final Preference preference;
-}
-
 @UseMoor(
-  tables: [Parameters, Preferences],
+  tables: [Parameters],
 )
 class Database extends _$Database {
   Database(QueryExecutor e) : super(e);
@@ -77,29 +58,6 @@ class Database extends _$Database {
   }
 
   Stream<List<Parameter>> get watchAllParameters => select(parameters).watch();
-
-  Stream<List<ParameterWithPreference>> watchPreferenceForSpecificParameter(
-      Parameter _parameter) {
-    final query = select(preferences).join(
-      [innerJoin(parameters, parameters.id.equalsExp(preferences.parameterId))],
-    );
-
-    if (_parameter != null) {
-      query.where(preferences.parameterId.equals(_parameter.id));
-    } else {
-      query.where(isNotNull(preferences.id));
-    }
-
-    return query.watch().map((rows) {
-      // read both the transaction and the associated category for each row
-      return rows.map((row) {
-        return ParameterWithPreference(
-          row.readTable(parameters),
-          row.readTable(preferences),
-        );
-      }).toList();
-    });
-  }
 
   Future<dynamic> insertParameter(ParametersCompanion _parameter) async {
     await into(parameters).insert(_parameter);
