@@ -35,8 +35,8 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
   Widget build(BuildContext rootContext) {
     final List<CoolStep> steps = [
       CoolStep(
-        title: 'Point de départ',
-        subtitle: "D'où souhaitez-vous démarrer votre voyage ?",
+        title: 'Starting place',
+        subtitle: "What's your starting place for this project ?",
         content: Form(
           key: _formKey1,
           child: Column(
@@ -72,9 +72,9 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         },
       ),
       CoolStep(
-        title: 'Préférences',
+        title: 'Interests',
         subtitle:
-            "Quels sont vos principaux centre d'intérêts pour ce projet ?",
+            'What are your main interests and expectations for this project ?',
         content: Form(
           key: _formKey2,
           child: Column(
@@ -105,8 +105,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
       ),
       CoolStep(
         title: 'Budget',
-        subtitle:
-            'Quelle est votre fourchette de budget allouée pour ce projet ?',
+        subtitle: "What's your estimated budget for this project ?",
         content: Column(
           children: [
             RangeSlider(
@@ -132,14 +131,14 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
       ),
       CoolStep(
         title: 'Date',
-        subtitle: 'A quelles dates souhaitez-vous réaliser ce projet ?',
+        subtitle: "What's the period you want to travel ?",
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Row(
               children: [
                 Text(
-                  'Départ : ${_dateFormat.format(selectedDateReturn)}',
+                  'From : ${_dateFormat.format(selectedDateReturn)}',
                 ),
                 const Spacer(),
                 TextButton(
@@ -153,7 +152,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
             Row(
               children: [
                 Text(
-                  'Retour : ${_dateFormat.format(selectedDate)}',
+                  'To : ${_dateFormat.format(selectedDate)}',
                 ),
                 const Spacer(),
                 TextButton(
