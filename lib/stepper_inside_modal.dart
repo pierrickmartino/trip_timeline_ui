@@ -23,7 +23,6 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
   String selectedRole = 'Writer';
   final TextEditingController _originCityCtrl = TextEditingController();
   final TextEditingController _originCountryCtrl = TextEditingController();
-  final TextEditingController _preferenceCtrl = TextEditingController();
 
   RangeValues _currentRangeValues = const RangeValues(1000, 2000);
   DateTime selectedDate = DateTime.now();
