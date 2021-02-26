@@ -91,9 +91,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       id = snapshot.data[index].id.toString();
                       originCity = snapshot.data[index].originCity;
                       originCountry = snapshot.data[index].originCountry;
-                      preference = snapshot.data[index].preference
-                          .replaceAll('[', '')
-                          .replaceAll(']', '');
+                      preference = snapshot.data[index].preference != null
+                          ? snapshot.data[index].preference
+                              .replaceAll('[', '')
+                              .replaceAll(']', '')
+                          : '-';
                       adult = snapshot.data[index].adult.toString();
                       child = snapshot.data[index].child.toString();
                       baby = snapshot.data[index].baby.toString();
@@ -101,14 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       budgetMax = snapshot.data[index].budgetMax.toString();
                       beginDate = snapshot.data[index].beginDate != null
                           ? _dateFormat.format(snapshot.data[index].beginDate)
-                          : 'N/A';
+                          : '-';
                       endDate = snapshot.data[index].endDate != null
                           ? _dateFormat.format(snapshot.data[index].endDate)
-                          : 'N/A';
+                          : '-';
                       creationDate = snapshot.data[index].creationDate != null
                           ? _dateFormat
                               .format(snapshot.data[index].creationDate)
-                          : 'N/A';
+                          : '-';
 
                       return ListTile(
                         title: Text('Project $id'),
@@ -119,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             const SizedBox(
                               height: 5,
                             ),
-                            Text('Origin : $originCity - $originCountry'),
+                            Text('Origin : $originCity ($originCountry)'),
                             Text('Preferences : $preference'),
                             Text(
                                 'Participant : $adult Adult(s) - $child Child(ren) - $baby Baby(s)'),
