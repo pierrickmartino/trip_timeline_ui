@@ -31,6 +31,11 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
 
   List<String> selectedChoices = [];
 
+  int _nAdult = 0;
+  int _nChild = 0;
+  int _nBaby = 0;
+
+
   @override
   Widget build(BuildContext rootContext) {
     final List<CoolStep> steps = [
@@ -170,20 +175,99 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         },
       ),
       CoolStep(
-        title: 'Select your role',
-        subtitle: 'Choose a role that better defines you',
-        content: Row(
+        title: 'Participant',
+        subtitle: 'Who is going to participate to the project ?',
+        content: 
+        Column(
+          children:<Widget>[
+Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _buildSelector(
-              context: rootContext,
-              name: 'Writer',
-            ),
-            const SizedBox(width: 5),
-            _buildSelector(
-              context: rootContext,
-              name: 'Editor',
-            ),
+            
+            Text(
+                  'Adult',
+                ),
+
+            FloatingActionButton(
+              onPressed: minusAdult,
+              child: new Icon(
+               Icons.remove,
+                 color: Colors.black),
+              backgroundColor: Colors.white,),
+
+
+            Text('$_nAdult',
+                style: new TextStyle(fontSize: 20.0)),
+
+FloatingActionButton(
+              onPressed: addAdult,
+              child: new Icon(Icons.add, color: Colors.black,),
+              backgroundColor: Colors.white,),
+
+
           ],
+        ),
+        SizedBox(
+          height:10,
+        ),
+Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            
+            Text(
+                  'Child',
+                ),
+
+            FloatingActionButton(
+              onPressed: minusChild,
+              child: new Icon(
+               Icons.remove,
+                 color: Colors.black),
+              backgroundColor: Colors.white,),
+
+
+            Text('$_nChild',
+                style: new TextStyle(fontSize: 20.0)),
+
+FloatingActionButton(
+              onPressed: addChild,
+              child: new Icon(Icons.add, color: Colors.black,),
+              backgroundColor: Colors.white,),
+
+
+          ],
+        ),SizedBox(
+          height:10,
+        ),
+Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            
+            Text(
+                  'Baby',
+                ),
+
+            FloatingActionButton(
+              onPressed: minusBaby,
+              child: new Icon(
+               Icons.remove,
+                 color: Colors.black),
+              backgroundColor: Colors.white,),
+
+
+            Text('$_nBaby',
+                style: new TextStyle(fontSize: 20.0)),
+
+FloatingActionButton(
+              onPressed: addBaby,
+              child: new Icon(Icons.add, color: Colors.black,),
+              backgroundColor: Colors.white,),
+
+
+          ],
+        ),
+
+          ]
         ),
         validation: () {
           return null;
@@ -205,9 +289,9 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
             _originCityCtrl.text,
             _originCountryCtrl.text,
             selectedChoices.toString(),
-            1,
-            2,
-            3,
+            _nAdult,
+            _nChild,
+            _nBaby,
             _currentRangeValues.start.round(),
             _currentRangeValues.end.round(),
             selectedDate,
@@ -241,6 +325,46 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
       ),
     ));
   }
+
+  void addAdult() {
+  setState(() {
+    _nAdult++;
+  });
+}
+
+  void addChild() {
+  setState(() {
+    _nChild++;
+  });
+}
+
+  void addBaby() {
+  setState(() {
+    _nBaby++;
+  });
+}
+
+
+void minusAdult() {
+  setState(() {
+    if (_nAdult != 0) 
+      _nAdult--;
+  });
+}
+
+void minusChild() {
+  setState(() {
+    if (_nChild != 0) 
+      _nChild--;
+  });
+}
+
+void minusBaby() {
+  setState(() {
+    if (_nBaby != 0) 
+      _nBaby--;
+  });
+}
 
   dynamic _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
