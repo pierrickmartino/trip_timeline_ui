@@ -35,7 +35,6 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
   int _nChild = 0;
   int _nBaby = 0;
 
-
   @override
   Widget build(BuildContext rootContext) {
     final List<CoolStep> steps = [
@@ -177,98 +176,95 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
       CoolStep(
         title: 'Participant',
         subtitle: 'Who is going to participate to the project ?',
-        content: 
-        Column(
-          children:<Widget>[
-Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            
-            Text(
-                  'Adult',
+        content: Column(children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              const Text(
+                'Adult',
+              ),
+              FloatingActionButton(
+                onPressed: minusAdult,
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.remove,
+                  color: Colors.black,
                 ),
-
-            FloatingActionButton(
-              onPressed: minusAdult,
-              child: new Icon(
-               Icons.remove,
-                 color: Colors.black),
-              backgroundColor: Colors.white,),
-
-
-            Text('$_nAdult',
-                style: new TextStyle(fontSize: 20.0)),
-
-FloatingActionButton(
-              onPressed: addAdult,
-              child: new Icon(Icons.add, color: Colors.black,),
-              backgroundColor: Colors.white,),
-
-
-          ],
-        ),
-        SizedBox(
-          height:10,
-        ),
-Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            
-            Text(
-                  'Child',
+              ),
+              Text(
+                '$_nAdult',
+                style: const TextStyle(fontSize: 20),
+              ),
+              FloatingActionButton(
+                onPressed: addAdult,
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.black,
                 ),
-
-            FloatingActionButton(
-              onPressed: minusChild,
-              child: new Icon(
-               Icons.remove,
-                 color: Colors.black),
-              backgroundColor: Colors.white,),
-
-
-            Text('$_nChild',
-                style: new TextStyle(fontSize: 20.0)),
-
-FloatingActionButton(
-              onPressed: addChild,
-              child: new Icon(Icons.add, color: Colors.black,),
-              backgroundColor: Colors.white,),
-
-
-          ],
-        ),SizedBox(
-          height:10,
-        ),
-Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            
-            Text(
-                  'Baby',
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              const Text(
+                'Child',
+              ),
+              FloatingActionButton(
+                onPressed: minusChild,
+                backgroundColor: Colors.white,
+                child: const Icon(Icons.remove, color: Colors.black),
+              ),
+              Text(
+                '$_nChild',
+                style: const TextStyle(fontSize: 20),
+              ),
+              FloatingActionButton(
+                onPressed: addChild,
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.black,
                 ),
-
-            FloatingActionButton(
-              onPressed: minusBaby,
-              child: new Icon(
-               Icons.remove,
-                 color: Colors.black),
-              backgroundColor: Colors.white,),
-
-
-            Text('$_nBaby',
-                style: new TextStyle(fontSize: 20.0)),
-
-FloatingActionButton(
-              onPressed: addBaby,
-              child: new Icon(Icons.add, color: Colors.black,),
-              backgroundColor: Colors.white,),
-
-
-          ],
-        ),
-
-          ]
-        ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              const Text(
+                'Baby',
+              ),
+              FloatingActionButton(
+                onPressed: minusBaby,
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.remove,
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                '$_nBaby',
+                style: const TextStyle(fontSize: 20),
+              ),
+              FloatingActionButton(
+                onPressed: addBaby,
+                backgroundColor: Colors.white,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ]),
         validation: () {
           return null;
         },
@@ -327,44 +323,46 @@ FloatingActionButton(
   }
 
   void addAdult() {
-  setState(() {
-    _nAdult++;
-  });
-}
+    setState(() {
+      _nAdult++;
+    });
+  }
 
   void addChild() {
-  setState(() {
-    _nChild++;
-  });
-}
+    setState(() {
+      _nChild++;
+    });
+  }
 
   void addBaby() {
-  setState(() {
-    _nBaby++;
-  });
-}
+    setState(() {
+      _nBaby++;
+    });
+  }
 
+  void minusAdult() {
+    setState(() {
+      if (_nAdult != 0) {
+        _nAdult--;
+      }
+    });
+  }
 
-void minusAdult() {
-  setState(() {
-    if (_nAdult != 0) 
-      _nAdult--;
-  });
-}
+  void minusChild() {
+    setState(() {
+      if (_nChild != 0) {
+        _nChild--;
+      }
+    });
+  }
 
-void minusChild() {
-  setState(() {
-    if (_nChild != 0) 
-      _nChild--;
-  });
-}
-
-void minusBaby() {
-  setState(() {
-    if (_nBaby != 0) 
-      _nBaby--;
-  });
-}
+  void minusBaby() {
+    setState(() {
+      if (_nBaby != 0) {
+        _nBaby--;
+      }
+    });
+  }
 
   dynamic _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -407,43 +405,6 @@ void minusBaby() {
         ),
         validator: validator,
         controller: controller,
-      ),
-    );
-  }
-
-  Widget _buildSelector({
-    BuildContext context,
-    String name,
-  }) {
-    final bool isActive = name == selectedRole;
-
-    return Expanded(
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          color: isActive ? Theme.of(context).primaryColor : null,
-          border: Border.all(
-            width: 0,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: RadioListTile(
-          value: name,
-          activeColor: Colors.white,
-          groupValue: selectedRole,
-          onChanged: (String v) {
-            setState(() {
-              selectedRole = v;
-            });
-          },
-          title: Text(
-            name,
-            style: TextStyle(
-              color: isActive ? Colors.white : null,
-            ),
-          ),
-        ),
       ),
     );
   }
