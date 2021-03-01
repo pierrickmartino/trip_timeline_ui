@@ -84,6 +84,114 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         },
       ),
       /**
+       * Section concernant les participants au projet.
+       * Nous cherchons à comprendre combien ils seront et 
+       * si des enfants/nourissons seront présents
+       * 
+       * Objectifs :
+       *    Eliminer des destinations pas adaptées pour des enfants
+       */
+      CoolStep(
+        title: 'Participant',
+        subtitle: 'Who is going to participate to the project ?',
+        content: Column(children: <Widget>[
+          Row(
+            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              const Text(
+                'Adult',
+              ),
+              const Spacer(),
+              OutlinedButton(
+                onPressed: minusAdult,
+                child: const Icon(
+                  Icons.remove,
+                  color: Colors.black,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Text(
+                  '$_nAdult',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+              OutlinedButton(
+                onPressed: addAdult,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: <Widget>[
+              const Text(
+                'Child',
+              ),
+              const Spacer(),
+              OutlinedButton(
+                onPressed: minusChild,
+                child: const Icon(Icons.remove, color: Colors.black),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Text(
+                  '$_nChild',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+              OutlinedButton(
+                onPressed: addChild,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: <Widget>[
+              const Text(
+                'Baby',
+              ),
+              const Spacer(),
+              OutlinedButton(
+                onPressed: minusBaby,
+                child: const Icon(
+                  Icons.remove,
+                  color: Colors.black,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Text(
+                  '$_nBaby',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+              OutlinedButton(
+                onPressed: addBaby,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ]),
+        validation: () {
+          return null;
+        },
+      ),
+      /**
        * Section concernant les différents centre d'intérêt important
        * pour ce projet.
        * La liste des activités disponibles se trouvent dans le fichier const.dart
@@ -121,6 +229,59 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
           return null;
         },
       ),
+      /**
+       * Section concernant les dates de début et de fin du projet
+       * 
+       * Objectifs :
+       *    Comprendre combien de temps va durer le projet (week-end, semaine, mois)
+       *    Déduire les lieux où la météo sera la plus clémente
+       *    Période de vacances scolaires ?
+       */
+      CoolStep(
+        title: 'Date',
+        subtitle: "What's the period you want to travel ?",
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              children: [
+                Text(
+                  'From : ${_dateFormat.format(selectedDate)}',
+                ),
+                const Spacer(),
+                OutlinedButton(
+                  onPressed: () => _selectDate(context), // Refer step 3
+                  child: const Text(
+                    'Select',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Text(
+                  'To : ${_dateFormat.format(selectedDateReturn)}',
+                ),
+                const Spacer(),
+                OutlinedButton(
+                  onPressed: () =>
+                      _selectDateReturn(context, selectedDate), // Refer step 3
+                  child: const Text(
+                    'Select',
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        validation: () {
+          return null;
+        },
+      ),
+
       /**
        * Section concernant le budget prévu pour réaliser le projet
        * 
@@ -165,158 +326,6 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
             ),
           ],
         ),
-        validation: () {
-          return null;
-        },
-      ),
-      /**
-       * Section concernant les dates de début et de fin du projet
-       * 
-       * Objectifs :
-       *    Comprendre combien de temps va durer le projet (week-end, semaine, mois)
-       *    Déduire les lieux où la météo sera la plus clémente
-       *    Période de vacances scolaires ?
-       */
-      CoolStep(
-        title: 'Date',
-        subtitle: "What's the period you want to travel ?",
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Row(
-              children: [
-                Text(
-                  'From : ${_dateFormat.format(selectedDateReturn)}',
-                ),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => _selectDateReturn(context), // Refer step 3
-                  child: const Text(
-                    'Select date',
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  'To : ${_dateFormat.format(selectedDate)}',
-                ),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => _selectDate(context), // Refer step 3
-                  child: const Text(
-                    'Select date',
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-        validation: () {
-          return null;
-        },
-      ),
-      /**
-       * Section concernant les participants au projet.
-       * Nous cherchons à comprendre combien ils seront et 
-       * si des enfants/nourissons seront présents
-       * 
-       * Objectifs :
-       *    Eliminer des destinations pas adaptées pour des enfants
-       */
-      CoolStep(
-        title: 'Participant',
-        subtitle: 'Who is going to participate to the project ?',
-        content: Column(children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              const Text(
-                'Adult',
-              ),
-              FloatingActionButton(
-                onPressed: minusAdult,
-                backgroundColor: Colors.white,
-                child: const Icon(
-                  Icons.remove,
-                  color: Colors.black,
-                ),
-              ),
-              Text(
-                '$_nAdult',
-                style: const TextStyle(fontSize: 20),
-              ),
-              FloatingActionButton(
-                onPressed: addAdult,
-                backgroundColor: Colors.white,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              const Text(
-                'Child',
-              ),
-              FloatingActionButton(
-                onPressed: minusChild,
-                backgroundColor: Colors.white,
-                child: const Icon(Icons.remove, color: Colors.black),
-              ),
-              Text(
-                '$_nChild',
-                style: const TextStyle(fontSize: 20),
-              ),
-              FloatingActionButton(
-                onPressed: addChild,
-                backgroundColor: Colors.white,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              const Text(
-                'Baby',
-              ),
-              FloatingActionButton(
-                onPressed: minusBaby,
-                backgroundColor: Colors.white,
-                child: const Icon(
-                  Icons.remove,
-                  color: Colors.black,
-                ),
-              ),
-              Text(
-                '$_nBaby',
-                style: const TextStyle(fontSize: 20),
-              ),
-              FloatingActionButton(
-                onPressed: addBaby,
-                backgroundColor: Colors.white,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ]),
         validation: () {
           return null;
         },
@@ -418,7 +427,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate, // Refer step 1
-      firstDate: DateTime(2021),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2022),
     );
     if (picked != null && picked != selectedDate) {
@@ -428,11 +437,11 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
     }
   }
 
-  dynamic _selectDateReturn(BuildContext context) async {
+  dynamic _selectDateReturn(BuildContext context, DateTime fromDate) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: selectedDateReturn, // Refer step 1
-      firstDate: DateTime(2021),
+      initialDate: fromDate.add(const Duration(days: 7)), // Refer step 1
+      firstDate: fromDate,
       lastDate: DateTime(2022),
     );
     if (picked != null && picked != selectedDateReturn) {

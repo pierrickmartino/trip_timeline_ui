@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 'Participant : $adult Adult(s) - $child Child(ren) - $baby Baby(s)'),
                             Text('Budget between $budgetMin and $budgetMax'),
                             Text('Period from $beginDate to $endDate'),
-                            Text('Creation date : $creationDate'),
+                            Text('Created the $creationDate'),
                             const SizedBox(
                               height: 15,
                             ),
@@ -135,8 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         trailing: Wrap(
                           children: [
-                            const IconButton(
-                                icon: Icon(Icons.edit), onPressed: null),
+                            // const IconButton(
+                            //     icon: Icon(Icons.edit), onPressed: null),
                             IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () {
