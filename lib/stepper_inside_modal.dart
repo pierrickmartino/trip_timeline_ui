@@ -37,15 +37,16 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
   @override
   Widget build(BuildContext rootContext) {
     final List<CoolStep> steps = [
-      /**
-       * Section concernant le point de départ du projet
-       * On définit le pays mais également la ville de départ.
-       * 
-       * Objectifs : 
-       *    calculer des distances entre le point de départ et les destinations
-       *    trouver l'aéroport le plus proche
-       *    déduire les dates des vacances scolaires
-       */
+      //
+      //  Starting place
+      //  Section concernant le point de départ du projet
+      //  On définit le pays mais également la ville de départ.
+
+      //  Objectifs :
+      //    calculer des distances entre le point de départ et les destinations
+      //    trouver l'aéroport le plus proche
+      //    déduire les dates des vacances scolaires
+
       CoolStep(
         title: 'Starting place',
         subtitle: "What's your starting place for this project ?",
@@ -83,122 +84,42 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
           return null;
         },
       ),
-      /**
-       * Section concernant les participants au projet.
-       * Nous cherchons à comprendre combien ils seront et 
-       * si des enfants/nourissons seront présents
-       * 
-       * Objectifs :
-       *    Eliminer des destinations pas adaptées pour des enfants
-       */
+
+      // Participant
+      // Section concernant les participants au projet.
+      // Nous cherchons à comprendre combien ils seront et
+      // si des enfants/nourissons seront présents
+
+      // Objectifs :
+      //   Eliminer des destinations pas adaptées pour des enfants
+
       CoolStep(
         title: 'Participant',
         subtitle: 'Who is going to participate to the project ?',
         content: Column(children: <Widget>[
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              const Text(
-                'Adult',
-              ),
-              const Spacer(),
-              OutlinedButton(
-                onPressed: minusAdult,
-                child: const Icon(
-                  Icons.remove,
-                  color: Colors.black,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Text(
-                  '$_nAdult',
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-              OutlinedButton(
-                onPressed: addAdult,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
+          _buildParticipantField(labelText: 'Adult', participantCode: 'ADULT'),
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: <Widget>[
-              const Text(
-                'Child',
-              ),
-              const Spacer(),
-              OutlinedButton(
-                onPressed: minusChild,
-                child: const Icon(Icons.remove, color: Colors.black),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Text(
-                  '$_nChild',
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-              OutlinedButton(
-                onPressed: addChild,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
+          _buildParticipantField(labelText: 'Child', participantCode: 'CHILD'),
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: <Widget>[
-              const Text(
-                'Baby',
-              ),
-              const Spacer(),
-              OutlinedButton(
-                onPressed: minusBaby,
-                child: const Icon(
-                  Icons.remove,
-                  color: Colors.black,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Text(
-                  '$_nBaby',
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-              OutlinedButton(
-                onPressed: addBaby,
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
+          _buildParticipantField(labelText: 'Baby', participantCode: 'BABY')
         ]),
         validation: () {
           return null;
         },
       ),
-      /**
-       * Section concernant les différents centre d'intérêt important
-       * pour ce projet.
-       * La liste des activités disponibles se trouvent dans le fichier const.dart
-       * 
-       * Objectifs :
-       *    déduire les lieux les plus appropriés et ceux qui ne le sont pas
-       */
+
+      // Interests
+      // Section concernant les différents centre d'intérêt important
+      // pour ce projet.
+      // La liste des activités disponibles se trouvent dans le fichier const.dart
+
+      // Objectifs :
+      //   déduire les lieux les plus appropriés et ceux qui ne le sont pas
+
       CoolStep(
         title: 'Interests',
         subtitle:
@@ -217,7 +138,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
                   },
                 ),
               ]
-/** https://karthikponnam.medium.com/flutter-multi-select-choicechip-244ea016b6fa */
+// https://karthikponnam.medium.com/flutter-multi-select-choicechip-244ea016b6fa
                   ),
             ],
           ),
@@ -229,14 +150,15 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
           return null;
         },
       ),
-      /**
-       * Section concernant les dates de début et de fin du projet
-       * 
-       * Objectifs :
-       *    Comprendre combien de temps va durer le projet (week-end, semaine, mois)
-       *    Déduire les lieux où la météo sera la plus clémente
-       *    Période de vacances scolaires ?
-       */
+
+      // Date
+      // Section concernant les dates de début et de fin du projet
+
+      // Objectifs :
+      //   Comprendre combien de temps va durer le projet (week-end, semaine, mois)
+      //   Déduire les lieux où la météo sera la plus clémente
+      //   Période de vacances scolaires ?
+
       CoolStep(
         title: 'Date',
         subtitle: "What's the period you want to travel ?",
@@ -282,13 +204,13 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         },
       ),
 
-      /**
-       * Section concernant le budget prévu pour réaliser le projet
-       * 
-       * Objectifs :
-       *    exclure des destinations au-dessus du budget
-       *    privilégier certains types de transport dans nos propositions
-       */
+      // Budget
+      // Section concernant le budget prévu pour réaliser le projet
+
+      // Objectifs :
+      //   exclure des destinations au-dessus du budget
+      //   privilégier certains types de transport dans nos propositions
+
       CoolStep(
         title: 'Budget',
         subtitle: "What's your estimated budget for this project ?",
@@ -334,11 +256,10 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
 
     final stepper = CoolStepper(
       onCompleted: () {
-        /** 
-         * Insertion ici des informations validées en base de données  
-         * Les informations se trouvent dans les controler et peuvent 
-         * être facilement retrouvées
-        */
+        //
+        // Insertion ici des informations validées en base de données
+        // Les informations se trouvent dans les controler et peuvent
+        // être facilement retrouvées
 
         BlocProvider.of<ApplicationBloc>(context).insertParameter(
             _originCityCtrl.text,
@@ -381,48 +302,59 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
     ));
   }
 
-  void addAdult() {
-    setState(() {
-      _nAdult++;
-    });
+  /// Incrémente le nombre de participants en fonction de [person]
+  void addSomeone(String person) {
+    switch (person) {
+      case 'ADULT':
+        setState(() {
+          _nAdult++;
+        });
+        break;
+      case 'CHILD':
+        setState(() {
+          _nChild++;
+        });
+        break;
+      case 'BABY':
+        setState(() {
+          _nBaby++;
+        });
+        break;
+      default:
+        break;
+    }
   }
 
-  void addChild() {
-    setState(() {
-      _nChild++;
-    });
+  /// Décrémente le nombre de participants en fonction de [person]
+  void minusSomeone(String person) {
+    switch (person) {
+      case 'ADULT':
+        setState(() {
+          if (_nAdult != 0) {
+            _nAdult--;
+          }
+        });
+        break;
+      case 'CHILD':
+        setState(() {
+          if (_nChild != 0) {
+            _nChild--;
+          }
+        });
+        break;
+      case 'BABY':
+        setState(() {
+          if (_nBaby != 0) {
+            _nBaby--;
+          }
+        });
+        break;
+      default:
+        break;
+    }
   }
 
-  void addBaby() {
-    setState(() {
-      _nBaby++;
-    });
-  }
-
-  void minusAdult() {
-    setState(() {
-      if (_nAdult != 0) {
-        _nAdult--;
-      }
-    });
-  }
-
-  void minusChild() {
-    setState(() {
-      if (_nChild != 0) {
-        _nChild--;
-      }
-    });
-  }
-
-  void minusBaby() {
-    setState(() {
-      if (_nBaby != 0) {
-        _nBaby--;
-      }
-    });
-  }
-
+  /// Permet de sélectionner une date de départ
   dynamic _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
@@ -437,6 +369,7 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
     }
   }
 
+  /// Permet de sélectionner une date de retour
   dynamic _selectDateReturn(BuildContext context, DateTime fromDate) async {
     final DateTime picked = await showDatePicker(
       context: context,
@@ -449,6 +382,67 @@ class _StepperInsideModalState extends State<StepperInsideModal> {
         selectedDateReturn = picked;
       });
     }
+  }
+
+  /// Retourne la ligne avec tous les éléments d'un participant
+  /// La ligne est créée dynamiquement en fonction de [participantCode]
+  /// Le libellé repris est celui donné dans le paramètre [labelText]
+  Widget _buildParticipantField({
+    String labelText,
+    String participantCode,
+  }) {
+    return Row(
+      children: <Widget>[
+        Text(labelText),
+        const Spacer(),
+        OutlinedButton(
+          onPressed: () {
+            minusSomeone(participantCode);
+          },
+          child: const Icon(
+            Icons.remove,
+            color: Colors.black,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: _buildParticipantCounter(participantCode: participantCode),
+        ),
+        OutlinedButton(
+          onPressed: () {
+            addSomeone(participantCode);
+          },
+          child: const Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Retourne le widget du compteur en fonction du [participantCode]
+  Widget _buildParticipantCounter({String participantCode}) {
+    String participantCounter;
+
+    switch (participantCode) {
+      case 'ADULT':
+        participantCounter = '$_nAdult';
+        break;
+      case 'CHILD':
+        participantCounter = '$_nChild';
+        break;
+      case 'BABY':
+        participantCounter = '$_nBaby';
+        break;
+      default:
+        break;
+    }
+
+    return Text(
+      participantCounter,
+      style: const TextStyle(fontSize: 20),
+    );
   }
 
   Widget _buildTextField({
