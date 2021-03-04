@@ -18,7 +18,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
   List<Widget> _buildChoiceList() {
     final List<Widget> choices = [];
 
-    widget.reportList.forEach((item) {
+    for (final item in widget.reportList) {
       choices.add(Container(
         padding: const EdgeInsets.all(2),
         child: ChoiceChip(
@@ -34,8 +34,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
           },
         ),
       ));
-    });
-
+    }
     return choices;
   }
 
