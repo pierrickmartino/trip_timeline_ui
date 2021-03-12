@@ -9,7 +9,9 @@ analyzer:
   language:
     strict-inference: true
     strict-raw-types: true
-    
+  exclude:
+    - lib/database/database.g.dart
+        
 linter:
   rules:
     - always_declare_return_types
